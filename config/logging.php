@@ -51,7 +51,7 @@ return [
             ],
             'formatter' => Monolog\Formatter\JsonFormatter::class, // Json形式
             'formatter_with' => [],
-            'tap' => [App\Logging\ExLogger::class], // ExtraにUIDとUserIDの追加
+            'tap' => [App\Logging\Logger\ExLogger::class], // ExtraにUIDとUserIDの追加
         ],
 
         'single' => [

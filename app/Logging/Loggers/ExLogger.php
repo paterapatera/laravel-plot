@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Logging;
+namespace App\Logging\Logger;
 
 use Monolog\Processor\UidProcessor;
 use Illuminate\Support\Facades\Auth;
