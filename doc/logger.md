@@ -9,6 +9,7 @@
 - SQLエラーのログレベルをクリティカルに変更
 - DB接続エラーのログレベルをアラートに変更
 - SQLエラーのSQLのパラメータをマスク化
+- ログの圧縮コマンド作成
 
 ## 変更したファイル
 
@@ -80,5 +81,24 @@
                 return new QueryMaskException($e);
             },
         ];
+    }
+```
+
+## ログの圧縮
+
+### 下記のコマンドにて圧縮可能
+[app/Console/Commands/LogArchive.php](../app/Console/Commands/LogArchive.php)
+
+### 下記ファイルでスケジュール設定をする
+[app/Console/Kernel.php](../app/Console/Kernel.php)
+
+```php
+// app/Console/Kernel.php
+
+    protected function schedule(Schedule $schedule)
+    {
+        ...
+        // 月初に先月のログファイルを圧縮
+        $schedule->command('log:archive')->monthly()->withoutOverlapping();
     }
 ```

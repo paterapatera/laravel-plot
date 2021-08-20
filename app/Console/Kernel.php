@@ -24,8 +24,8 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // 1時間ごとにinspireを起動、多重起動は防止
-        // $schedule->command('inspire')->hourly()->withoutOverlapping();
+        // 月初に先月のログファイルを圧縮
+        $schedule->command('log:archive')->monthly()->withoutOverlapping();
     }
 
     /**
