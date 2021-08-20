@@ -3,35 +3,27 @@
 use Monolog\Handler\NullHandler;
 use Monolog\Handler\StreamHandler;
 use Monolog\Handler\SyslogUdpHandler;
+use App\Logging\Loggers\ExLogger;
 
 return [
 
     /*
-    |--------------------------------------------------------------------------
-    | Default Log Channel
-    |--------------------------------------------------------------------------
+    | ---------------------------------------------------------------------------
+    | デフォルトのログチャンネル
+    | ---------------------------------------------------------------------------
     |
-    | This option defines the default log channel that gets used when writing
-    | messages to the logs. The name specified in this option should match
-    | one of the channels defined in the "channels" configuration array.
-    |
+    | ログの書き込み時に使用されるデフォルトのログチャンネルを定義
+    | 「channels」配列で定義しているものを指定
     */
 
     'default' => env('LOG_CHANNEL', 'stack'),
 
     /*
     |--------------------------------------------------------------------------
-    | Log Channels
+    | ログチャンネル
     |--------------------------------------------------------------------------
     |
-    | Here you may configure the log channels for your application. Out of
-    | the box, Laravel uses the Monolog PHP logging library. This gives
-    | you a variety of powerful log handlers / formatters to utilize.
-    |
-    | Available Drivers: "single", "daily", "slack", "syslog",
-    |                    "errorlog", "monolog",
-    |                    "custom", "stack"
-    |
+    | 主に「stack」の「channels」の変更、追加や新しいチャンネルの定義をする
     */
 
     'channels' => [
@@ -42,16 +34,11 @@ return [
         ],
 
         'jsonDaily' => [
-            'driver' => 'monolog',
-            'handler' => Monolog\Handler\RotatingFileHandler::class, // 日毎にファイルを作成
-            'with' => [
-                'filename' => storage_path('logs/laravel.log'),
-                'level' => env('LOG_LEVEL', 'debug'),
-                'maxFiles ' => 3,
-            ],
-            'formatter' => Monolog\Formatter\JsonFormatter::class, // Json形式
-            'formatter_with' => [],
-            'tap' => [App\Logging\Logger\ExLogger::class], // ExtraにUIDとUserIDの追加
+            'driver' => 'daily',
+            'path' => storage_path('logs/event.log'),
+            'level' => env('LOG_LEVEL', 'debug'),
+            'days' => 3, // 保管されるファイル数。それ以上になった場合、古いものから削除される
+            'tap' => [ExLogger::class], // フォーマットやExtraにUIDとUserIDの追加
         ],
 
         'single' => [

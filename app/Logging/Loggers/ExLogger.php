@@ -2,16 +2,18 @@
 
 declare(strict_types=1);
 
-namespace App\Logging\Logger;
+namespace App\Logging\Loggers;
 
+use App\Logging\Processors\UserIdProcessor;
 use Monolog\Processor\UidProcessor;
-use Illuminate\Support\Facades\Auth;
+use Monolog\Formatter\JsonFormatter;
 
 class ExLogger
 {
     /**
      * ロガーの拡張
      * 
+     * 出力フォーマットをJSON形式に変更
      * ログのextraにuidとuser_idを追加
      *
      * @param \Illuminate\Log\Logger $logger
@@ -19,12 +21,15 @@ class ExLogger
      */
     public function __invoke($logger)
     {
+        $formatter = new JsonFormatter();
         foreach ($logger->getHandlers() as $handler) {
+            $handler->setFormatter($formatter);
+            // ログファイル名のフォーマット変更
+            // if ($handler instanceof RotatingFileHandler) {
+            //     $handler->setFilenameFormat("{filename}-{date}", 'Y-m-d');
+            // }
             $handler->pushProcessor(new UidProcessor());
-            $handler->pushProcessor(function (array $record): array {
-                $record['extra']['user_id'] = Auth::id() ?? '-';
-                return $record;
-            });
+            $handler->pushProcessor(new UserIdProcessor());
         }
     }
 }
