@@ -18,6 +18,8 @@
 - [app/Exceptions/QueryMaskException.php](../app/Exceptions/QueryMaskException.php)
 - [app/Logging/Loggers/ExLogger.php](../app/Logging/Loggers/ExLogger.php)
 - [app/Logging/Processors/UserIdProcessor.php](../app/Logging/Processors/UserIdProcessor.php)
+- [app/Console/Commands/LogArchive.php](../app/Console/Commands/LogArchive.php)
+- [app/Console/Kernel.php](../app/Console/Kernel.php)
 
 ## ExLogger
 
