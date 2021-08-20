@@ -8,7 +8,7 @@ use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 class Kernel extends ConsoleKernel
 {
     /**
-     * The Artisan commands provided by your application.
+     * 既定のディレクトリ以外のコマンドの登録
      *
      * @var array
      */
@@ -17,24 +17,25 @@ class Kernel extends ConsoleKernel
     ];
 
     /**
-     * Define the application's command schedule.
+     * コマンド(バッチ)のスケジュール設定
      *
      * @param  \Illuminate\Console\Scheduling\Schedule  $schedule
      * @return void
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')->hourly();
+        // 1時間ごとにinspireを起動、多重起動は防止
+        // $schedule->command('inspire')->hourly()->withoutOverlapping();
     }
 
     /**
-     * Register the commands for the application.
+     * app/Console/Commandsディレクトリ内のコマンドをすべて読み込む
      *
      * @return void
      */
     protected function commands()
     {
-        $this->load(__DIR__.'/Commands');
+        $this->load(__DIR__ . '/Commands');
 
         require base_path('routes/console.php');
     }
