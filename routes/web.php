@@ -14,7 +14,5 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    Illuminate\Support\Facades\Log::info('aaa', ['aaaa' => 123]);
-    App\Models\User::where('password', '=', 'aaaa')->get();
     return view('welcome');
 });
