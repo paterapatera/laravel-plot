@@ -40,7 +40,7 @@ class LogArchive extends Command
      */
     public function __construct()
     {
-        $this->logger = Log::stack([Channel::COMMAND]);
+        $this->logger = Log::stack([Channel::COMMAND, Channel::NOTIFICATION]);
         parent::__construct();
     }
 

@@ -12,6 +12,7 @@
 - SQLエラーのSQLのパラメータをマスク化
 - ログの圧縮コマンド作成
 - HTTPアクセス開始と終了時にログ出力追加
+- エラー時メール送信ログチャンネル作成
 
 ## 変更したファイル
 
@@ -23,7 +24,7 @@
 - [app/Console/Commands/LogArchive.php](../app/Console/Commands/LogArchive.php)
 - [app/Console/Kernel.php](../app/Console/Kernel.php)
 - [app/Http/Listeners/ActionStartLogger.php](../app/Http/Listeners/ActionStartLogger.php)
-- [app/Http/Listeners/ActionFinishLogger.php](../app/Http/Listeners/ActionFinishLogger.php)
+- [app/Logging/Handlers/MailHandler.php](../app/Logging/Handlers/MailHandler.php)
 
 ## ExLogger
 

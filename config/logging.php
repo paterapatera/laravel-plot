@@ -1,8 +1,11 @@
 <?php
 
+use App\Logging\Channel;
+use App\Logging\Handlers\MailHandler;
 use Monolog\Handler\NullHandler;
 use Monolog\Handler\StreamHandler;
 use Monolog\Handler\SyslogUdpHandler;
+use Monolog\Formatter\HtmlFormatter;
 use App\Logging\Loggers\ExLogger;
 
 return [
@@ -29,7 +32,7 @@ return [
     'channels' => [
         'stack' => [
             'driver' => 'stack',
-            'channels' => ['web'],
+            'channels' => [Channel::WEB, Channel::NOTIFICATION],
             'ignore_exceptions' => false,
         ],
 
@@ -58,6 +61,19 @@ return [
             'level' => env('LOG_LEVEL', 'debug'),
             'days' => 3, // 保管されるファイル数。それ以上になった場合、古いものから削除される
             'tap' => [ExLogger::class], // フォーマットやExtraにUIDとUserIDの追加
+        ],
+
+        // エラー時にメール通知
+        'mail' => [
+            'driver' => 'monolog',
+            'level' => env('NOTIFICATION_LOG_LEVEL', 'error'),
+            'handler' => MailHandler::class,
+            'handler_with' => [
+                'to' => env('LOG_MAIL_TO', 'mail@example.com'),
+                'cc' => env('LOG_MAIL_CC', []),
+                'bcc' => env('LOG_MAIL_BCC', []),
+            ],
+            'formatter' => HtmlFormatter::class,
         ],
 
         'single' => [
