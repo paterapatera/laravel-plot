@@ -7,4 +7,6 @@ laravel ver: 8.0
 - [開発環境の準備](doc/local.md)
 - [ログまわりのカスタマイズ](doc/logger.md)
 - [コマンド（バッチ）の作成](doc/command.md)
+- [イベントの作成](doc/event.md)
+- [コードチェック](doc/code.md)
 - `config/app.php` の日本時間と日本語設定

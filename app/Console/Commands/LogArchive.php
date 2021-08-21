@@ -71,7 +71,7 @@ class LogArchive extends Command
         }
 
         // 01～31日までのログファイル名作成
-        $files = Collection::times(31, fn (int $num) => 'event-' . $month . '-' . sprintf('%02d', $num) . '.log')
+        $files = Collection::times(31, fn (int $num): string => 'event-' . $month . '-' . sprintf('%02d', $num) . '.log')
             // ログファイル名にパスを追加
             ->flatMap(fn (string $name) => [
                 storage_path("logs/web-{$name}"),
