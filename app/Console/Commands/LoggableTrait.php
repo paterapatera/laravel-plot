@@ -10,13 +10,20 @@ use Psr\Log\LoggerInterface;
 
 trait LoggableTrait
 {
+    /** @var \Psr\Log\LoggerInterface|null */
+    protected $logger;
+
     /**
      * ロガーを取得
      *
-     * @return LoggerInterface
+     * @return \Psr\Log\LoggerInterface
      */
     public function log(): LoggerInterface
     {
-        return Log::stack([Channel::COMMAND, Channel::NOTIFICATION]);
+        if (is_null($this->logger)) {
+            $this->logger = Log::stack([Channel::COMMAND, Channel::NOTIFICATION]);
+        }
+
+        return $this->logger;
     }
 }

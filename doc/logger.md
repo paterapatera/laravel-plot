@@ -22,6 +22,7 @@
 - [app/Logging/Loggers/ExLogger.php](../app/Logging/Loggers/ExLogger.php)
 - [app/Logging/Processors/UserIdProcessor.php](../app/Logging/Processors/UserIdProcessor.php)
 - [app/Console/Commands/LogArchive.php](../app/Console/Commands/LogArchive.php)
+- [app/Console/Commands/LoggableTrait.php](../app/Console/Commands/LoggableTrait.php)
 - [app/Console/Kernel.php](../app/Console/Kernel.php)
 - [app/Http/Middleware/HttpBeforeAfterDispatch.php](../app/Http/Middleware/HttpBeforeAfterDispatch.php)
 - [app/Http/Kernel.php](../app/Http/Kernel.php)
