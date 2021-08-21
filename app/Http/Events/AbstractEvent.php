@@ -32,7 +32,6 @@ abstract class AbstractEvent
      * リクエストの取得
      *
      * @return Request
-     * @psalm-suppress PropertyNotSetInConstructor
      */
     public function getRequest(): Request
     {

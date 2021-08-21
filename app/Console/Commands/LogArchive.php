@@ -33,7 +33,6 @@ class LogArchive extends Command
      * 先月のログファイルをまとめて1つのZIPにする
      *
      * @return int
-     * @psalm-suppress UndefinedClass
      */
     public function handle()
     {
