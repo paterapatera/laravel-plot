@@ -12,6 +12,7 @@ use ZipArchive;
 
 class LogArchive extends Command
 {
+    use LoggableTrait;
     /**
      * 実行時のコマンド名
      *
@@ -27,24 +28,6 @@ class LogArchive extends Command
     protected $description = '先月のログをまとめてZip化する';
 
     /**
-     * ロガー
-     *
-     * @var \Psr\Log\LoggerInterface
-     */
-    protected $logger;
-
-    /**
-     * コマンドのインスタンス作成
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        $this->logger = Log::stack([Channel::COMMAND, Channel::NOTIFICATION]);
-        parent::__construct();
-    }
-
-    /**
      * 実行処理
      * 
      * 先月のログファイルをまとめて1つのZIPにする
@@ -56,17 +39,17 @@ class LogArchive extends Command
     {
         $month = date('Y-m', strtotime(date('Y-m-01') . '-1 month'));
         $zipfile = storage_path("logs/log-{$month}.zip");
-        $this->logger->info('ファイル名生成', compact('zipfile'));
+        $this->log()->info('ファイル名生成', compact('zipfile'));
 
         if (file_exists($zipfile)) {
-            $this->logger->notice('すでにファイルが存在するので削除');
+            $this->log()->notice('すでにファイルが存在するので削除');
             unlink($zipfile);
         }
 
         $zip = new ZipArchive();
-        $this->logger->info('Zip作成');
+        $this->log()->info('Zip作成');
         if ($zip->open($zipfile, ZipArchive::CREATE) === false) {
-            $this->logger->error('Zip作成失敗');
+            $this->log()->error('Zip作成失敗');
             return 1;
         }
 
@@ -81,10 +64,10 @@ class LogArchive extends Command
             // 存在しないファイル名は除外
             ->filter(fn (string $file) => file_exists($file));
 
-        $this->logger->info('Zipにファイルを追加', compact('files'));
+        $this->log()->info('Zipにファイルを追加', compact('files'));
         foreach ($files as $file) {
             if ($zip->addFile($file, basename($file)) === false) {
-                $this->logger->error('ファイルの追加失敗', compact('file'));
+                $this->log()->error('ファイルの追加失敗', compact('file'));
                 $zip->close();
                 return 1;
             }
