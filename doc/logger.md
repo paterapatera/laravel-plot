@@ -88,8 +88,11 @@
 
 ## ログの圧縮
 
+Note: 事前にphpでZipArchiveが使えることを確認  
+
 ### 下記のコマンドにて圧縮可能
-[app/Console/Commands/LogArchive.php](../app/Console/Commands/LogArchive.php)
+[app/Console/Commands/LogArchive.php](../app/Console/Commands/LogArchive.php)  
+ログファイル名の変更時はこのコマンドの調整が必要
 
 ### 下記ファイルでスケジュール設定をする
 [app/Console/Kernel.php](../app/Console/Kernel.php)

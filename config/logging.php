@@ -29,13 +29,32 @@ return [
     'channels' => [
         'stack' => [
             'driver' => 'stack',
-            'channels' => ['jsonDaily'],
+            'channels' => ['web'],
             'ignore_exceptions' => false,
         ],
 
-        'jsonDaily' => [
+        // ブラウザアクセスで使用されるログ設定
+        'web' => [
             'driver' => 'daily',
-            'path' => storage_path('logs/event.log'),
+            'path' => storage_path('logs/web-event.log'),
+            'level' => env('LOG_LEVEL', 'debug'),
+            'days' => 3, // 保管されるファイル数。それ以上になった場合、古いものから削除される
+            'tap' => [ExLogger::class], // フォーマットやExtraにUIDとUserIDの追加
+        ],
+
+        // Commandで使用されるログ設定
+        'command' => [
+            'driver' => 'daily',
+            'path' => storage_path('logs/command-event.log'),
+            'level' => env('LOG_LEVEL', 'debug'),
+            'days' => 3, // 保管されるファイル数。それ以上になった場合、古いものから削除される
+            'tap' => [ExLogger::class], // フォーマットやExtraにUIDとUserIDの追加
+        ],
+
+        // APIで使用されるログ設定
+        'api' => [
+            'driver' => 'daily',
+            'path' => storage_path('logs/api-event.log'),
             'level' => env('LOG_LEVEL', 'debug'),
             'days' => 3, // 保管されるファイル数。それ以上になった場合、古いものから削除される
             'tap' => [ExLogger::class], // フォーマットやExtraにUIDとUserIDの追加

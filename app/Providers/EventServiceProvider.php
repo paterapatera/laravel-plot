@@ -6,6 +6,8 @@ use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Event;
+use Illuminate\Console\Events as ConsoleEvents;
+use App\Console\Listeners as ConsoleListeners;
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -18,6 +20,12 @@ class EventServiceProvider extends ServiceProvider
         Registered::class => [
             SendEmailVerificationNotification::class,
         ],
+        ConsoleEvents\CommandStarting::class => [
+            ConsoleListeners\CommandStartLogger::class
+        ],
+        ConsoleEvents\CommandFinished::class => [
+            ConsoleListeners\CommandFinishLogger::class
+        ]
     ];
 
     /**
