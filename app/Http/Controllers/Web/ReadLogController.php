@@ -37,10 +37,15 @@ class ReadLogController extends \App\Http\Controllers\Controller
             ->map(fn ($json) => json_decode($json))
             // 空文字の行がnullになるので除外
             ->filter(fn ($data) => !is_null($data))
+            // contextをJSON形式で出力用に整形して入れ直す
+            ->map(fn (object $data) => (object)array_merge(
+                (array)$data,
+                ['context' => json_encode($data->context, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT)]
+            ))
             // UIDで検索していた場合は結果を絞り込む
-            ->filter(fn (Object $data) => empty($request->uid) ? true : $request->uid === $data->extra->uid)
+            ->filter(fn (object $data) => empty($request->uid) ? true : $request->uid === $data->extra->uid)
             //User IDで検索していた場合は結果を絞り込む
-            ->filter(fn (Object $data) => empty($request->user_id) ? true : $request->user_id === strval($data->extra->user_id))
+            ->filter(fn (object $data) => empty($request->user_id) ? true : $request->user_id === strval($data->extra->user_id))
             ->all();
         return view('web.read-log.show', compact('logs', 'file'));
     }
