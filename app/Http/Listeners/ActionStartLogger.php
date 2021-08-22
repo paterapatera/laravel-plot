@@ -28,6 +28,6 @@ class ActionStartLogger
      */
     public function handle(ActionStarting $event)
     {
-        Log::info('アクション開始', ['request' => $event->getRequest()->getRequestUri()]);
+        Log::info(' アクション開始：' . $event->getRequest()->getRequestUri());
     }
 }

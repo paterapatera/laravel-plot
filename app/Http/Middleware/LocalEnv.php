@@ -4,15 +4,14 @@ declare(strict_types=1);
 
 namespace App\Http\Middleware;
 
-use App\Http\Events\ActionFinished;
-use App\Http\Events\ActionStarting;
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 
 /**
- * リクエストの実行前と実行後にイベントを送信
+ * ローカル環境でのみリクエストを実行
  */
-class HttpBeforeAfterDispatch
+class LocalEnv
 {
     /**
      * リクエストを処理
@@ -23,9 +22,11 @@ class HttpBeforeAfterDispatch
      */
     public function handle(Request $request, Closure $next)
     {
-        ActionStarting::dispatch($request);
-        $response = $next($request);
-        ActionFinished::dispatch($request);
-        return $response;
+        App::environment('local');
+        if (!App::environment('local')) {
+            return redirect('/');
+        }
+
+        return $next($request);
     }
 }

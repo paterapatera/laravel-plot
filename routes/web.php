@@ -1,18 +1,13 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
+use App\Http\Controllers\Web;
 
 Route::get('/', function () {
     return view('welcome');
+});
+
+Route::middleware(['localEnv'])->group(function () {
+    Route::get('/read-log', [Web\ReadLogController::class, 'index']);
+    Route::get('/read-log/show', [Web\ReadLogController::class, 'show']);
 });
