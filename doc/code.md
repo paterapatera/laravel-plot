@@ -1,9 +1,9 @@
 # コードチェック
 
-## Psalm
+## PHPStan
 
 コードの静的解析
 
 ```sh
-./vendor/bin/psalm --show-info=true
+./vendor/bin/phpstan analyse
 ```

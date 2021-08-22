@@ -7,6 +7,8 @@ namespace App\Logging\Loggers;
 use App\Logging\Processors\UserIdProcessor;
 use Monolog\Processor\UidProcessor;
 use Monolog\Formatter\JsonFormatter;
+use Monolog\Handler\FormattableHandlerInterface;
+use Monolog\Handler\ProcessableHandlerInterface;
 
 class ExLogger
 {
@@ -25,15 +27,20 @@ class ExLogger
         $formatter = new JsonFormatter();
 
         foreach ($logger->getHandlers() as $handler) {
-            $handler->setFormatter($formatter);
             // ログファイル名のフォーマット変更
             // if ($handler instanceof RotatingFileHandler) {
             //     $handler->setFilenameFormat("{filename}-{date}", 'Y-m-d');
             // }
 
-            // 項目追加
-            $handler->pushProcessor(new UidProcessor());
-            $handler->pushProcessor(new UserIdProcessor());
+            if ($handler instanceof FormattableHandlerInterface) {
+                $handler->setFormatter($formatter);
+            }
+
+            if ($handler instanceof ProcessableHandlerInterface) {
+                // 項目追加
+                $handler->pushProcessor(new UidProcessor());
+                $handler->pushProcessor(new UserIdProcessor());
+            }
         }
     }
 }

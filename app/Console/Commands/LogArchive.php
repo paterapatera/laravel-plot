@@ -36,7 +36,13 @@ class LogArchive extends Command
      */
     public function handle()
     {
-        $month = date('Y-m', strtotime(date('Y-m-01') . '-1 month'));
+        $lastMonthStamp = strtotime(date('Y-m-01') . '-1 month');
+        if ($lastMonthStamp === false) {
+            $this->log()->error('先月の日付取得に失敗しました', compact('lastMonthStamp'));
+            return 1;
+        }
+
+        $month = date('Y-m', $lastMonthStamp);
         $zipfile = storage_path("logs/log-{$month}.zip");
         $this->log()->info('ファイル名生成', compact('zipfile'));
 
@@ -47,8 +53,8 @@ class LogArchive extends Command
 
         $zip = new ZipArchive();
         $this->log()->info('Zip作成');
-        if ($zip->open($zipfile, ZipArchive::CREATE) === false) {
-            $this->log()->error('Zip作成失敗');
+        if ($zip->open($zipfile, ZipArchive::CREATE) !== true) {
+            $this->log()->error('Zip作成に失敗しました');
             return 1;
         }
 
@@ -66,7 +72,7 @@ class LogArchive extends Command
         $this->log()->info('Zipにファイルを追加', compact('files'));
         foreach ($files as $file) {
             if ($zip->addFile($file, basename($file)) === false) {
-                $this->log()->error('ファイルの追加失敗', compact('file'));
+                $this->log()->error('ファイルの追加に失敗しました', compact('file'));
                 $zip->close();
                 return 1;
             }

@@ -15,7 +15,7 @@ abstract class AbstractEvent
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    protected $request;
+    protected Request $request;
 
     /**
      * イベントインスタンスを作成
