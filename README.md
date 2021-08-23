@@ -10,3 +10,5 @@ laravel ver: 8.0
 - [イベントの作成](doc/event.md)
 - [コードチェック](doc/code.md)
 - `config/app.php` の日本時間と日本語設定
+- Jetstream-LiveWireのインストール
+- 基本機能の日本語化(`resources/lang/ja` の追加)
