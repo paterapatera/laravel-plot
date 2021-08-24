@@ -18,7 +18,9 @@ class HashIpProcessor implements ProcessorInterface
      */
     public function __invoke(array $record): array
     {
-        $record['extra']['hash_ip'] = md5($_SERVER["REMOTE_ADDR"]);
+        // コマンド実行時は$_SERVERが存在しないのでハイフンを表示
+        $ipExists = array_key_exists('REMOTE_ADDR', $_SERVER);
+        $record['extra']['hash_ip'] = $ipExists ? md5($_SERVER['REMOTE_ADDR']) : '-';
 
         return $record;
     }
