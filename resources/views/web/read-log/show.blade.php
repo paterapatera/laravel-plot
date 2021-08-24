@@ -16,6 +16,7 @@
     <form method="GET" action="{{url()->current()}}">
         UID：<input type="text" name="uid" />
         USER ID：<input type="text" name="user_id" />
+        HASH IP：<input type="text" name="hash_ip" />
         <input type="hidden" name="file" value="{{$file}}" />
         <input type="submit" value="検索" />
     </form>
@@ -24,6 +25,7 @@
             <tr>
                 <th>UID</th>
                 <th>User ID</th>
+                <th>Hash IP</th>
                 <th>Message</th>
                 <th>Context</th>
                 <th>Level</th>
@@ -35,6 +37,7 @@
             <tr>
                 <td>{{ $log->extra->uid }}</td>
                 <td>{{ $log->extra->user_id }}</td>
+                <td>{{ $log->extra->hash_ip }}</td>
                 <td>{{ $log->message }}</td>
                 <td>
                     <button type="button" class="collapsible">Open</button>

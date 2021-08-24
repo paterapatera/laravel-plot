@@ -46,6 +46,8 @@ class ReadLogController extends \App\Http\Controllers\Controller
             ->filter(fn (object $data) => empty($request->uid) ? true : $request->uid === $data->extra->uid)
             //User IDで検索していた場合は結果を絞り込む
             ->filter(fn (object $data) => empty($request->user_id) ? true : $request->user_id === strval($data->extra->user_id))
+            //Hash IPで検索していた場合は結果を絞り込む
+            ->filter(fn (object $data) => empty($request->hash_ip) ? true : $request->hash_ip === strval($data->extra->hash_ip))
             ->all();
         return view('web.read-log.show', compact('logs', 'file'));
     }

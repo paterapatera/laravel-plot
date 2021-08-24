@@ -22,7 +22,6 @@ class LocalEnv
      */
     public function handle(Request $request, Closure $next)
     {
-        App::environment('local');
         if (!App::environment('local')) {
             return redirect('/');
         }

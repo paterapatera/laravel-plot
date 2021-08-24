@@ -6,6 +6,7 @@ namespace App\Logging\Loggers;
 
 use App\Logging\Processors\UserIdProcessor;
 use Monolog\Processor\UidProcessor;
+use App\Logging\Processors\HashIpProcessor;
 use Monolog\Formatter\JsonFormatter;
 use Monolog\Handler\FormattableHandlerInterface;
 use Monolog\Handler\ProcessableHandlerInterface;
@@ -16,7 +17,7 @@ class ExLogger
      * ロガーの拡張
      * 
      * 出力フォーマットをJSON形式に変更
-     * ログのextraにuidとuser_idを追加
+     * ログのextraにuidとuser_idとhash_ipを追加
      *
      * @param \Illuminate\Log\Logger $logger
      * @return void
@@ -40,6 +41,7 @@ class ExLogger
                 // 項目追加
                 $handler->pushProcessor(new UidProcessor());
                 $handler->pushProcessor(new UserIdProcessor());
+                $handler->pushProcessor(new HashIpProcessor());
             }
         }
     }
