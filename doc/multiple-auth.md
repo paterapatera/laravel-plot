@@ -1,4 +1,10 @@
-# 管理者の認証システム
+# 認証システム
+
+```
+jetstreamはだめだった  
+ログイン画面がブラックボックスで、複数の認証が作りづらい  
+Breezeで作るのがいいかも
+```
 
 ## モデルとコントローラとルーターの作成
 - [app/Http/Controllers/Admin/AuthController.php](../app/Http/Controllers/Admin/AuthController.php)
