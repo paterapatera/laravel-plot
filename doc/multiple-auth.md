@@ -6,19 +6,79 @@ jetstreamはだめだった
 Breezeで作るのがいいかも
 ```
 
-## モデルとコントローラとルーターの作成
-- [app/Http/Controllers/Admin/AuthController.php](../app/Http/Controllers/Admin/AuthController.php)
-- [app/Models/Admin.php](../app/Models/Admin.php)
-- [routes/admin.php](../routes/admin.php)
+```sh
+seil composer require laravel/breeze --dev
 
-## マイグレーション追加
+sail artisan breeze:install
 
-- [database/migrations/2021_08_23_200000_create_admins_table.php](../database/migrations/2021_08_23_200000_create_admins_table.php)
-- [database/migrations/2021_08_23_200001_add_admin_two_factor_columns_to_users_table.php](../database/migrations/2021_08_23_200001_add_admin_two_factor_columns_to_users_table.php)
+seil shell
 
-## Viewの追加
+npm install
+npm run dev
+php artisan migrate
+```
 
-- [resources/views/admin/auth/*](../resources/views/admin/auth)
+# 追加・変更したファイル
+- [app/Http/Controllers/Web/Auth/](../app/Http/Controllers/Web/Auth)
+- [app/Http/Middleware/RedirectIfAuthenticated.php](../app/Http/Middleware/RedirectIfAuthenticated.php)
+- [app/View/Components/](../app/View/Components)
+- [resources/views/web/auth/](../resources/views/web/auth)
+- [routes/auth.php](../routes/auth.php)
+- [app/Http/Requests/Web/Auth/LoginRequest.php](../app/Http/Requests/Web/Auth/LoginRequest.php)
+- [app/Providers/RouteServiceProvider.php](../app/Providers/RouteServiceProvider.php)
+- [resources/css/app.css](../resources/css/app.css)
+- [resources/js/app.js](../resources/js/app.js)
+- [resources/views/components/](../resources/views/components)
+- [resources/views/layouts](../resources/views/layouts)
+- [resources/views/dashboard.blade.php](../resources/views/dashboard.blade.php)
+- [webpack.mix.js](../webpack.mix.js)
+
+## Adminの場合のリダイレクト処理追加
+```php
+// app/Http/Middleware/RedirectIfAuthenticated.php
+
+    public function handle(Request $request, Closure $next, ...$guards)
+    {
+        if (Auth::guard(self::GUARD_ADMIN)->check() && $request->is('admin.*')) {
+            return redirect(RouteServiceProvider::ADMIN_HOME);
+        } elseif (Auth::guard(self::GUARD_WEB)->check() && !$request->is('admin.*')) {
+            return redirect(RouteServiceProvider::HOME);
+        }
+
+        return $next($request);
+    }
+```
+
+## ルートの追加
+
+`as()` の追加でルート名にもプレフィックスを付ける
+adminの追加
+
+```php
+// app/Providers/RouteServiceProvider.php
+
+    public function boot()
+    {
+        $this->configureRateLimiting();
+
+        $this->routes(function () {
+            Route::prefix('api')
+                ->as('api.')
+                ->middleware('api')
+                ->namespace($this->namespace)
+                ->group(base_path('routes/api.php'));
+
+            Route::middleware('web')
+                ->namespace($this->namespace)
+                ->group(base_path('routes/web.php'));
+
+            Route::middleware('web')
+                ->as('admin.')
+                ->namespace($this->namespace)
+                ->group(base_path('routes/admin.php'));
+        });
+    }
+```
 
 ## 設定ファイルの修正
 
@@ -56,7 +116,8 @@ Breezeで作るのがいいかも
 
 ### 認証失敗時のリダイレクト処理追加
 
-[app/Http/Middleware/Authenticate.php](../app/Http/Middleware/Authenticate.php)
+[app/Http/Middleware/Authenticate.php](../app/Http/Middleware/Authenticate.php)  
+strcmpを使ってるのは処理が早いため、`$request->is('admin.*')`でも問題ないと思う
 
 ```php
     protected function redirectTo($request)
@@ -68,22 +129,5 @@ Breezeで作るのがいいかも
             }
             ...
         }
-    }
-```
-
-### ルートファイルの登録
-
-[app/Providers/RouteServiceProvider.php](../app/Providers/RouteServiceProvider.php)
-
-```php
-    public function boot()
-    {
-        ...
-        $this->routes(function () {
-            ...
-            Route::middleware('web')
-                ->namespace($this->namespace)
-                ->group(base_path('routes/admin.php'));
-        });
     }
 ```

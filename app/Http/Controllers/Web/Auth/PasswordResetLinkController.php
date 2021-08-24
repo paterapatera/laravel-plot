@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Auth;
+namespace App\Http\Controllers\Web\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -9,17 +9,17 @@ use Illuminate\Support\Facades\Password;
 class PasswordResetLinkController extends Controller
 {
     /**
-     * Display the password reset link request view.
+     * パスワード忘れた場合の画面
      *
      * @return \Illuminate\View\View
      */
     public function create()
     {
-        return view('auth.forgot-password');
+        return view('web.auth.forgot-password');
     }
 
     /**
-     * Handle an incoming password reset link request.
+     * パスワードリセット処理
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\RedirectResponse
@@ -32,16 +32,15 @@ class PasswordResetLinkController extends Controller
             'email' => 'required|email',
         ]);
 
-        // We will send the password reset link to this user. Once we have attempted
-        // to send the link, we will examine the response then see the message we
-        // need to show to the user. Finally, we'll send out a proper response.
+        // パスワードリセットリンクを送信
         $status = Password::sendResetLink(
             $request->only('email')
         );
-
+        // パスワードがリセットメールが送信された場合は、メッセージを付けて前画面にリダイレクト
+        // エラーが発生した場合は、入力情報を保持したままエラーメッセージをつけて前画面にリダイレクト
         return $status == Password::RESET_LINK_SENT
-                    ? back()->with('status', __($status))
-                    : back()->withInput($request->only('email'))
-                            ->withErrors(['email' => __($status)]);
+            ? back()->with('status', __($status))
+            : back()->withInput($request->only('email'))
+            ->withErrors(['email' => __($status)]);
     }
 }

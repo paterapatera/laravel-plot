@@ -9,8 +9,11 @@ use Illuminate\Support\Facades\Auth;
 
 class RedirectIfAuthenticated
 {
+    private const GUARD_WEB = 'web';
+    private const GUARD_ADMIN = 'admin';
+
     /**
-     * Handle an incoming request.
+     * 認証済みの場合はリダイレクト
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \Closure  $next
@@ -19,12 +22,10 @@ class RedirectIfAuthenticated
      */
     public function handle(Request $request, Closure $next, ...$guards)
     {
-        $guards = empty($guards) ? [null] : $guards;
-
-        foreach ($guards as $guard) {
-            if (Auth::guard($guard)->check()) {
-                return redirect(RouteServiceProvider::HOME);
-            }
+        if (Auth::guard(self::GUARD_ADMIN)->check() && $request->is('admin.*')) {
+            return redirect(RouteServiceProvider::ADMIN_HOME);
+        } elseif (Auth::guard(self::GUARD_WEB)->check() && !$request->is('admin.*')) {
+            return redirect(RouteServiceProvider::HOME);
         }
 
         return $next($request);
