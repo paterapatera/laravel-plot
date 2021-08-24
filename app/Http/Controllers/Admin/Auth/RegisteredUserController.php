@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Auth;
+namespace App\Http\Controllers\Admin\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
@@ -14,17 +14,17 @@ use Illuminate\Validation\Rules;
 class RegisteredUserController extends Controller
 {
     /**
-     * Display the registration view.
+     * ユーザー登録画面
      *
      * @return \Illuminate\View\View
      */
     public function create()
     {
-        return view('auth.register');
+        return view('admin.auth.register');
     }
 
     /**
-     * Handle an incoming registration request.
+     * ユーザー登録処理
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\RedirectResponse

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Auth;
+namespace App\Http\Controllers\Admin\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Auth\LoginRequest;
@@ -11,22 +11,22 @@ use Illuminate\Support\Facades\Auth;
 class AuthenticatedSessionController extends Controller
 {
     /**
-     * Display the login view.
-     *
-     * @return \Illuminate\View\View
+     * ログインフォーム
+     * 
+     * @return \Illuminate\Contracts\View\View
      */
-    public function create()
+    public function show()
     {
-        return view('auth.login');
+        return view('admin.auth.login');
     }
 
     /**
-     * Handle an incoming authentication request.
+     * ログイン
      *
      * @param  \App\Http\Requests\Admin\Auth\LoginRequest  $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(LoginRequest $request)
+    public function login(LoginRequest $request)
     {
         $request->authenticate();
 
@@ -36,17 +36,20 @@ class AuthenticatedSessionController extends Controller
     }
 
     /**
-     * Destroy an authenticated session.
+     * ログアウト
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function destroy(Request $request)
+    public function logout(Request $request)
     {
-        Auth::guard('web')->logout();
+        /** @var \Illuminate\Contracts\Auth\StatefulGuard */
+        $guard = Auth::guard('admin');
+        $guard->logout();
 
+        // セッションから全てのデータを削除して再生成
         $request->session()->invalidate();
-
+        // トークンの再生成
         $request->session()->regenerateToken();
 
         return redirect('/');

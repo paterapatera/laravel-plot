@@ -1,18 +1,64 @@
 <?php
 
+use App\Http\Controllers\Admin\Auth\AuthenticatedSessionController;
+use App\Http\Controllers\Admin\Auth\ConfirmablePasswordController;
+use App\Http\Controllers\Admin\Auth\EmailVerificationNotificationController;
+use App\Http\Controllers\Admin\Auth\EmailVerificationPromptController;
+use App\Http\Controllers\Admin\Auth\NewPasswordController;
+use App\Http\Controllers\Admin\Auth\PasswordResetLinkController;
+use App\Http\Controllers\Admin\Auth\RegisteredUserController;
+use App\Http\Controllers\Admin\Auth\VerifyEmailController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Web;
 
-// ログイン
-Route::get('admin/login', [\App\Http\Controllers\Admin\AuthController::class, 'showLoginForm'])->name('login');
-Route::post('admin/login', [\App\Http\Controllers\Admin\AuthController::class, 'login']);
+Route::middleware('guest')
+    ->get('/register', [RegisteredUserController::class, 'create'])
+    ->name('register');
 
-// 認証後にアクセスできるルート
-Route::prefix('admin')->middleware('auth:admin')->group(function () {
-    // ログアウト
-    Route::get('logout', [\App\Http\Controllers\Admin\AuthController::class, 'logout'])->name('logout');
+Route::middleware('guest')
+    ->post('/register', [RegisteredUserController::class, 'store']);
 
-    Route::get('dashboard', function () {
-        return '未実装';
-    })->name('dashboard');
-});
+Route::middleware('guest')
+    ->get('/login', [AuthenticatedSessionController::class, 'show'])
+    ->name('login');
+
+Route::middleware('guest')
+    ->post('/login', [AuthenticatedSessionController::class, 'login']);
+
+Route::middleware('guest')
+    ->get('/forgot-password', [PasswordResetLinkController::class, 'create'])
+    ->name('password.request');
+
+Route::middleware('guest')
+    ->post('/forgot-password', [PasswordResetLinkController::class, 'store'])
+    ->name('password.email');
+
+Route::middleware('guest')
+    ->get('/reset-password/{token}', [NewPasswordController::class, 'create'])
+    ->name('password.reset');
+
+Route::middleware('guest')
+    ->post('/reset-password', [NewPasswordController::class, 'store'])
+    ->name('password.update');
+
+Route::middleware('auth')
+    ->get('/verify-email', [EmailVerificationPromptController::class, '__invoke'])
+    ->name('verification.notice');
+
+Route::middleware(['auth', 'signed', 'throttle:6,1'])
+    ->get('/verify-email/{id}/{hash}', [VerifyEmailController::class, '__invoke'])
+    ->name('verification.verify');
+
+Route::middleware(['auth', 'throttle:6,1'])
+    ->post('/email/verification-notification', [EmailVerificationNotificationController::class, 'send'])
+    ->name('verification.send');
+
+Route::middleware('auth')
+    ->get('/confirm-password', [ConfirmablePasswordController::class, 'show'])
+    ->name('password.confirm');
+
+Route::middleware('auth')
+    ->post('/confirm-password', [ConfirmablePasswordController::class, 'passowrdCheck']);
+
+Route::middleware('auth')
+    ->post('/logout', [AuthenticatedSessionController::class, 'destroy'])
+    ->name('logout');
