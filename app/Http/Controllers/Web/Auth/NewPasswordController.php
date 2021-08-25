@@ -10,6 +10,9 @@ use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rules;
 
+/**
+ * パスワードを忘れた場合のリセットメールのリンクをクリックした時の機能
+ */
 class NewPasswordController extends Controller
 {
     /**

@@ -31,7 +31,7 @@ php artisan migrate
 - [resources/css/app.css](../resources/css/app.css)
 - [resources/js/app.js](../resources/js/app.js)
 - [resources/views/components/](../resources/views/components)
-- [resources/views/layouts](../resources/views/layouts)
+- [resources/views/components/layouts](../resources/views/components/layouts)
 - [resources/views/dashboard.blade.php](../resources/views/dashboard.blade.php)
 - [webpack.mix.js](../webpack.mix.js)
 
