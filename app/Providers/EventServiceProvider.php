@@ -18,18 +18,22 @@ class EventServiceProvider extends ServiceProvider
         Registered::class => [
             SendEmailVerificationNotification::class,
         ],
-        \Illuminate\Console\Events\CommandStarting::class => [
-            \App\Console\Listeners\CommandStartLogger::class
-        ],
-        \Illuminate\Console\Events\CommandFinished::class => [
-            \App\Console\Listeners\CommandFinishLogger::class
-        ],
         \App\Http\Events\ActionStarting::class => [
-            \App\Http\Listeners\ActionStartLogger::class
+            \App\Http\Listeners\LogActionStart::class
         ],
         \App\Http\Events\ActionFinished::class => [
-            \App\Http\Listeners\ActionFinishLogger::class
+            \App\Http\Listeners\LogActionFinish::class
         ],
+    ];
+
+    /**
+     * サブスクライバクラス
+     *
+     * @var array
+     */
+    protected $subscribe = [
+        \App\Console\Commands\Listener::class,
+        \App\Http\Controllers\Web\Listener::class,
     ];
 
     /**

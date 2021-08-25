@@ -1,16 +1,13 @@
 <?php
 
-declare(strict_types=1);
+namespace App\Http\Listeners;
 
-namespace App\Console\Listeners;
-
-use App\Logging\Channel;
-use Illuminate\Console\Events\CommandFinished;
+use App\Http\Events\ActionFinished;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Facades\Log;
 
-class CommandFinishLogger
+class LogActionFinish
 {
     /**
      * Create the event listener.
@@ -25,12 +22,11 @@ class CommandFinishLogger
     /**
      * Handle the event.
      *
-     * @param  CommandFinished  $event
+     * @param  ActionFinished  $event
      * @return void
      */
-    public function handle(CommandFinished $event)
+    public function handle(ActionFinished $event)
     {
-        Log::channel(Channel::COMMAND)
-            ->info($event->command . ' コマンド終了 ');
+        Log::info('アクション終了');
     }
 }

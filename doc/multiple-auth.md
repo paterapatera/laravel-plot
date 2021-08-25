@@ -19,6 +19,8 @@ php artisan migrate
 ```
 
 # 追加・変更したファイル
+- [app/Models/User.php](../app/Models/User.php)
+- [app/Models/Admin.php](../app/Models/Admin.php)
 - [app/Http/Controllers/Web/Auth/](../app/Http/Controllers/Web/Auth)
 - [app/Http/Middleware/RedirectIfAuthenticated.php](../app/Http/Middleware/RedirectIfAuthenticated.php)
 - [app/View/Components/](../app/View/Components)

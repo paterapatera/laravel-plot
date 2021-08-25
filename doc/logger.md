@@ -22,15 +22,15 @@
 - [app/Logging/Loggers/ExLogger.php](../app/Logging/Loggers/ExLogger.php)
 - [app/Logging/Processors/UserIdProcessor.php](../app/Logging/Processors/UserIdProcessor.php)
 - [app/Console/Commands/LogArchive.php](../app/Console/Commands/LogArchive.php)
-- [app/Console/Commands/LoggableTrait.php](../app/Console/Commands/LoggableTrait.php)
+- [app/Console/Listeners/CommandListener.php](../app/Console/Listeners/CommandListener.php)
 - [app/Console/Kernel.php](../app/Console/Kernel.php)
 - [app/Http/Middleware/HttpBeforeAfterDispatch.php](../app/Http/Middleware/HttpBeforeAfterDispatch.php)
 - [app/Http/Kernel.php](../app/Http/Kernel.php)
 - [app/Providers/EventServiceProvider.php](../app/Providers/EventServiceProvider.php)
 - [app/Http/Events/ActionStarting.php](../app/Http/Events/ActionStarting.php)
 - [app/Http/Events/ActionFinished.php](../app/Http/Events/ActionFinished.php)
-- [app/Http/Listeners/ActionStartLogger.php](../app/Http/Listeners/ActionStartLogger.php)
-- [app/Http/Listeners/ActionFinishLogger.php](../app/Http/Listeners/ActionFinishLogger.php)
+- [app/Http/Listeners/LogActionStart.php](../app/Http/Listeners/LogActionStart.php)
+- [app/Http/Listeners/LogActionFinish.php](../app/Http/Listeners/LogActionFinish.php)
 - [app/Logging/Handlers/MailHandler.php](../app/Logging/Handlers/MailHandler.php)
 
 ## ExLogger
@@ -144,21 +144,5 @@ Note: 事前にphpでZipArchiveが使えることを確認
     protected $middleware = [
         ...
         \App\Http\Middleware\HttpBeforeAfterDispatch::class,
-    ];
-```
-
-### イベントとリスナーの登録
-
-```php
-// app/Providers/EventServiceProvider.php
-
-    protected $listen = [
-        ...
-        \App\Http\Events\ActionStarting::class => [
-            \App\Http\Listeners\ActionStartLogger::class
-        ],
-        \App\Http\Events\ActionFinished::class => [
-            \App\Http\Listeners\ActionFinishLogger::class
-        ],
     ];
 ```
