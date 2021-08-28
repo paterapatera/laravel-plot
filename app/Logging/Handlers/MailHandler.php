@@ -58,7 +58,6 @@ class MailHandler extends \Monolog\Handler\MailHandler
                     $mail->to($this->to)
                         ->cc($this->cc)
                         ->bcc($this->bcc)
-                        ->from(env('LOG_MAIL_FROM', 'mail@example.com'))
                         ->subject("[{$r['level_name']}]{$appName}で問題が発生しました");
                 });
             } catch (\Throwable $e) {

@@ -18,7 +18,8 @@ docker run --rm \
     composer install --ignore-platform-reqs
 ```
 
-2. `.env.local` を複製して `.env` を作成
+2. `.env.local` を複製して `.env` を作成  
+基本的にローカル環境では `.env.local` が呼ばれるが、dockerからは `.env` が読まれる？
 
 ## 開発環境の起動 
 

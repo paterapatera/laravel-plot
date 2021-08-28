@@ -25,7 +25,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/verify-email', [EmailVerificationPromptController::class, '__invoke'])->name('verification.notice');
     Route::get('/confirm-password', [ConfirmablePasswordController::class, 'show'])->name('password.confirm');
     Route::post('/confirm-password', [ConfirmablePasswordController::class, 'passowrdCheck']);
-    Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
+    Route::post('/logout', [AuthenticatedSessionController::class, 'logout'])->name('logout');
 });
 
 Route::middleware(['auth', 'signed', 'throttle:6,1'])
