@@ -41,7 +41,7 @@
                 <td>{{ $log->message }}</td>
                 <td>
                     <button type="button" class="collapsible">Open</button>
-                    <pre class="content">{{ $log->context }}</pre>
+                    <pre class="content">{{ json_encode($log->context, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT) }}</pre>
                 </td>
                 <td>{{ $log->level_name }}</td>
                 <td>{{ $log->datetime }}</td>
