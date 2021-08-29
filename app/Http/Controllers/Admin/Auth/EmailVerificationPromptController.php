@@ -15,7 +15,7 @@ class EmailVerificationPromptController extends AbstractAdminController
      */
     public function __invoke(Request $request)
     {
-        // すでに確認済みの場合はHOMEにリダイレクト
+        // すでに確認済みの場合はADMIN_HOMEにリダイレクト
         return $request->user()->hasVerifiedEmail()
             ? redirect()->intended(RouteServiceProvider::ADMIN_HOME)
             : view('admin.auth.verify-email');

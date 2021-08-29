@@ -24,10 +24,10 @@ Route::middleware('guest')->group(function () {
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/confirm-password', [ConfirmablePasswordController::class, 'show'])->name('password.confirm');
     Route::post('/confirm-password', [ConfirmablePasswordController::class, 'passowrdCheck']);
-    Route::post('/logout', [AuthenticatedSessionController::class, 'logout'])->name('logout');
 });
 
 Route::middleware('auth')->group(function () {
+    Route::post('/logout', [AuthenticatedSessionController::class, 'logout'])->name('logout');
     Route::get('/verify-email', [EmailVerificationPromptController::class, '__invoke'])->name('verification.notice');
 });
 

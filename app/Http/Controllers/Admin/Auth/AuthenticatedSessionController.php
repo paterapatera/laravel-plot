@@ -3,8 +3,6 @@
 namespace App\Http\Controllers\Admin\Auth;
 
 use App\Http\Requests\Admin\Auth\LoginRequest;
-use App\Models\Admin;
-use App\Models\User;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Http\Request;
 

@@ -54,11 +54,10 @@ class MailHandler extends \Monolog\Handler\MailHandler
     {
         collect($records)->each(function (array $r) use ($content) {
             try {
-                $appName = env('APP_NAME', 'app name');
                 Mail::to($this->to)
                     ->cc($this->cc)
                     ->bcc($this->bcc)
-                    ->send(new ErrorLogMail("[{$r['level_name']}]{$appName}で問題が発生しました", $content));
+                    ->send(new ErrorLogMail($r['level_name'], $content));
             } catch (\Throwable $e) {
                 Log::warning($e->getMessage());
             }

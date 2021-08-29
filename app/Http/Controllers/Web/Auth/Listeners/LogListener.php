@@ -26,11 +26,11 @@ class LogListener
                 'guard' => $event->guard,
                 'remember' => $event->remember,
             ]),
-            \Illuminate\Auth\Events\Authenticated::class
-            => fn ($event) => Log::info('自動ログイン', [
-                'guard' => $event->guard,
-                'user_id' => optional($event->user)->id,
-            ]),
+            // \Illuminate\Auth\Events\Authenticated::class
+            // => fn ($event) => Log::info('ログイン済み', [
+            //     'guard' => $event->guard,
+            //     'user_id' => optional($event->user)->id,
+            // ]),
             \Illuminate\Auth\Events\Login::class
             => fn ($event) => Log::info('ログイン', [
                 'guard' => $event->guard,

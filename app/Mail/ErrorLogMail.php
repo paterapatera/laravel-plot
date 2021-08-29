@@ -15,17 +15,17 @@ class ErrorLogMail extends Mailable
     protected $content;
 
     /** @var string */
-    protected $title;
+    protected $levelName;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct(string $title, string $content)
+    public function __construct(string $levelName, string $content)
     {
         $this->content = $content;
-        $this->title = $title;
+        $this->levelName = $levelName;
     }
 
     /**
@@ -35,6 +35,9 @@ class ErrorLogMail extends Mailable
      */
     public function build()
     {
-        return $this->markdown('email.error-log', ['content' => $this->content])->subject($this->title);
+        $subject = "[{$this->levelName}]" . env('APP_NAME', 'app name') . 'で問題が発生しました';
+        return $this
+            ->markdown('email.error-log', ['content' => $this->content])
+            ->subject($subject);
     }
 }

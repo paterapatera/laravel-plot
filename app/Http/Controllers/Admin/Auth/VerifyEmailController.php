@@ -18,13 +18,13 @@ class VerifyEmailController extends AbstractAdminController
     {
         // すでに確認済みの場合
         if ($request->user()->hasVerifiedEmail()) {
-            return redirect()->intended(RouteServiceProvider::HOME . '?verified=1');
+            return redirect(RouteServiceProvider::ADMIN_HOME);
         }
 
         if ($request->user()->markEmailAsVerified()) {
             event(new Verified($request->user()));
         }
 
-        return redirect()->intended(RouteServiceProvider::HOME . '?verified=1');
+        return redirect(RouteServiceProvider::ADMIN_HOME)->with('status', 'メールアドレスの確認が完了しました');
     }
 }
