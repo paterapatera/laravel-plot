@@ -8,7 +8,7 @@ use Monolog\Processor\ProcessorInterface;
 use Illuminate\Support\Facades\Auth;
 
 /**
- * ログにUserIDを記録する
+ * ログにUserIDもしくはAdminIDを記録する
  */
 class UserIdProcessor implements ProcessorInterface
 {
@@ -17,7 +17,8 @@ class UserIdProcessor implements ProcessorInterface
      */
     public function __invoke(array $record): array
     {
-        $record['extra']['user_id'] = Auth::id() ?? '-';
+        $adminId = Auth::guard('admin')->id();
+        $record['extra']['user_id'] = Auth::id() ?? $adminId ? "(admin){$adminId}" : '-';
 
         return $record;
     }
