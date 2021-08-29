@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers\Admin\Auth;
 
-use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Http\Request;
 
-class EmailVerificationPromptController extends Controller
+class EmailVerificationPromptController extends AbstractAdminController
 {
     /**
      * メールを確認するように促す画面
@@ -18,7 +17,7 @@ class EmailVerificationPromptController extends Controller
     {
         // すでに確認済みの場合はHOMEにリダイレクト
         return $request->user()->hasVerifiedEmail()
-            ? redirect()->intended(RouteServiceProvider::HOME)
+            ? redirect()->intended(RouteServiceProvider::ADMIN_HOME)
             : view('admin.auth.verify-email');
     }
 }

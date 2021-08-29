@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Logging\Handlers;
 
 use App\Logging\Processors\UserIdProcessor;
+use App\Mail\ErrorLogMail;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Mail\Message;
@@ -53,13 +54,11 @@ class MailHandler extends \Monolog\Handler\MailHandler
     {
         collect($records)->each(function (array $r) use ($content) {
             try {
-                Mail::send('email.error_log', ['context' => $content], function (Message $mail) use ($r) {
-                    $appName = env('APP_NAME', 'app name');
-                    $mail->to($this->to)
-                        ->cc($this->cc)
-                        ->bcc($this->bcc)
-                        ->subject("[{$r['level_name']}]{$appName}で問題が発生しました");
-                });
+                $appName = env('APP_NAME', 'app name');
+                Mail::to($this->to)
+                    ->cc($this->cc)
+                    ->bcc($this->bcc)
+                    ->send(new ErrorLogMail("[{$r['level_name']}]{$appName}で問題が発生しました", $content));
             } catch (\Throwable $e) {
                 Log::warning($e->getMessage());
             }

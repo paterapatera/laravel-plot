@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers\Admin\Auth;
 
-use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Http\Request;
 
-class EmailVerificationNotificationController extends Controller
+class EmailVerificationNotificationController extends AbstractAdminController
 {
     /**
      * 登録確認メール送信
@@ -18,7 +17,7 @@ class EmailVerificationNotificationController extends Controller
     {
         // すでに確認済みの場合
         if ($request->user()->hasVerifiedEmail()) {
-            return redirect()->intended(RouteServiceProvider::HOME);
+            return redirect()->intended(RouteServiceProvider::ADMIN_HOME);
         }
 
         $request->user()->sendEmailVerificationNotification();

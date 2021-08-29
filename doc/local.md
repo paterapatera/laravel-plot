@@ -19,7 +19,8 @@ docker run --rm \
 ```
 
 2. `.env.local` を複製して `.env` を作成  
-基本的にローカル環境では `.env.local` が呼ばれるが、dockerからは `.env` が読まれる？
+基本的にローカル環境では `.env.local` が呼ばれるが、dockerのMySQLなどは `.env` が読まれる  
+apacheなどで設定した `APP_ENV=loca` によって `.env.local` が呼ばれるのはLaravelの隠れ仕様
 
 ## 開発環境の起動 
 

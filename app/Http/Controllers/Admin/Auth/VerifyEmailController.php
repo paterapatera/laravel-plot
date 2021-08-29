@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers\Admin\Auth;
 
-use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Auth\Events\Verified;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 
-class VerifyEmailController extends Controller
+class VerifyEmailController extends AbstractAdminController
 {
     /**
      * メールのリンクをクリックした時、確認済みにする処理

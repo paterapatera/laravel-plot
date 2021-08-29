@@ -21,11 +21,14 @@ Route::middleware('guest')->group(function () {
     Route::post('/reset-password', [NewPasswordController::class, 'store'])->name('password.update');
 });
 
-Route::middleware('auth')->group(function () {
-    Route::get('/verify-email', [EmailVerificationPromptController::class, '__invoke'])->name('verification.notice');
+Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/confirm-password', [ConfirmablePasswordController::class, 'show'])->name('password.confirm');
     Route::post('/confirm-password', [ConfirmablePasswordController::class, 'passowrdCheck']);
     Route::post('/logout', [AuthenticatedSessionController::class, 'logout'])->name('logout');
+});
+
+Route::middleware('auth')->group(function () {
+    Route::get('/verify-email', [EmailVerificationPromptController::class, '__invoke'])->name('verification.notice');
 });
 
 Route::middleware(['auth', 'signed', 'throttle:6,1'])

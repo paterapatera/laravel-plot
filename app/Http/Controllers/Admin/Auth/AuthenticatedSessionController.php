@@ -2,15 +2,13 @@
 
 namespace App\Http\Controllers\Admin\Auth;
 
-use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Auth\LoginRequest;
 use App\Models\Admin;
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
-class AuthenticatedSessionController extends Controller
+class AuthenticatedSessionController extends AbstractAdminController
 {
     /**
      * ログインフォーム
@@ -19,8 +17,6 @@ class AuthenticatedSessionController extends Controller
      */
     public function show()
     {
-        var_dump(Admin::all()->map(fn ($u) => $u->email)->all());
-        var_dump(User::all()->map(fn ($u) => $u->email)->all());
         return view('admin.auth.login');
     }
 
@@ -47,15 +43,13 @@ class AuthenticatedSessionController extends Controller
      */
     public function logout(Request $request)
     {
-        /** @var \Illuminate\Contracts\Auth\StatefulGuard */
-        $guard = Auth::guard('admin');
-        $guard->logout();
+        $this->auth->logout();
 
         // セッションから全てのデータを削除して再生成
         $request->session()->invalidate();
         // トークンの再生成
         $request->session()->regenerateToken();
 
-        return redirect('/');
+        return redirect()->route('admin.login');
     }
 }
