@@ -29,6 +29,20 @@
             </div>
         </header>
 
+        @if (session('status'))
+        <div class="p-4">
+            <div class="px-4 py-3 leading-normal text-blue-700 bg-blue-100 rounded-lg" role="alert">
+                {{ session('status') }}
+            </div>
+        </div>
+        @endif
+        @if (session('error'))
+        <div class="p-4">
+            <div class="px-4 py-3 leading-normal text-red-700 bg-red-100 rounded-lg" role="alert">
+                {{ session('error') }}
+            </div>
+        </div>
+        @endif
         <!-- Page Content -->
         <main>
             {{ $slot }}

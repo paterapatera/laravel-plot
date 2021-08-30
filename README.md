@@ -12,3 +12,4 @@ laravel ver: 8.0
 - `config/app.php` の日本時間と日本語設定
 - 基本機能の日本語化(`resources/lang/ja` の追加)
 - [認証システム](doc/multiple-auth.md)
+- [S3の設定](doc/file.md)

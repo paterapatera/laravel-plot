@@ -11,6 +11,8 @@ Route::get('/', function () {
 
 Route::get('/csv', [Web\CsvController::class, 'index'])->name('csv');
 Route::get('/csv/download', [Web\CsvController::class, 'download'])->name('csv.download');
+Route::get('/picture', [Web\PictureController::class, 'index'])->name('picture');
+Route::post('/pictureu', [Web\PictureController::class, 'upload'])->name('picture.upload');
 
 
 // ------------------------

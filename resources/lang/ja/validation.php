@@ -128,5 +128,7 @@ return [
             'rule-name' => 'custom-message',
         ],
     ],
-    'attributes'           => [],
+    'attributes'           => [
+        'file' => 'ファイル'
+    ],
 ];
