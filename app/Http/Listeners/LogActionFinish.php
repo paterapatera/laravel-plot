@@ -10,22 +10,9 @@ use Illuminate\Support\Facades\Log;
 class LogActionFinish
 {
     /**
-     * Create the event listener.
-     *
-     * @return void
+     * コントローラのアクション終了時のログ
      */
-    public function __construct()
-    {
-        //
-    }
-
-    /**
-     * Handle the event.
-     *
-     * @param  ActionFinished  $event
-     * @return void
-     */
-    public function handle(ActionFinished $event)
+    public function handle(ActionFinished $event): void
     {
         Log::info('アクション終了');
     }

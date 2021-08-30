@@ -4,15 +4,11 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Web;
 
-use Closure;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Support\Facades\File;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
-use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class PictureController extends \App\Http\Controllers\Controller
 {
@@ -32,13 +28,14 @@ class PictureController extends \App\Http\Controllers\Controller
      */
     public function upload(Request $request): RedirectResponse
     {
-        $request->validate([
+        $this->validator($request->all(), [
             'file' => 'required|file|image',
-        ]);
+        ])->validate();
 
         $file = $request->file('file');
         if ($file instanceof \Illuminate\Http\UploadedFile) {
-            $file->store('');
+            $filename = $file->store('');
+            Log::info('画像のアップロード完了', ['filename' => $filename]);
         } else {
             $message = '画像のアップロードに失敗しました';
             Log::warning($message);

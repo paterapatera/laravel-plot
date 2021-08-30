@@ -11,23 +11,10 @@ use Monolog\Processor\IntrospectionProcessor;
 class LogActionStart
 {
     /**
-     * Create the event listener.
-     *
-     * @return void
+     * コントローラのアクション開始時のログ
      */
-    public function __construct()
+    public function handle(ActionStarting $event): void
     {
-        //
-    }
-
-    /**
-     * Handle the event.
-     *
-     * @param  ActionStarting  $event
-     * @return void
-     */
-    public function handle(ActionStarting $event)
-    {
-        Log::info(' アクション開始：' . $event->getRequest()->getRequestUri());
+        Log::info('' . $event->getRequest()->method() . ' ' . $event->getRequest()->getRequestUri());
     }
 }

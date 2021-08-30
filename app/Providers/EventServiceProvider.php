@@ -18,6 +18,9 @@ class EventServiceProvider extends ServiceProvider
         Registered::class => [
             SendEmailVerificationNotification::class,
         ],
+        \App\Http\Events\ValidationFinished::class => [
+            \App\Http\Listeners\LogValidationError::class
+        ],
         \App\Http\Events\ActionStarting::class => [
             \App\Http\Listeners\LogActionStart::class
         ],
