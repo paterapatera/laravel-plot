@@ -7,6 +7,14 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+// ------------------------
+
+Route::get('/csv', [Web\CsvController::class, 'index'])->name('csv');
+Route::get('/csv/download', [Web\CsvController::class, 'download'])->name('csv.download');
+
+
+// ------------------------
+
 Route::middleware(['auth', 'verified'])->get('/dashboard', function () {
     return view('dashboard');
 })->name('dashboard');

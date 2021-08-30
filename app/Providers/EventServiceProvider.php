@@ -21,9 +21,9 @@ class EventServiceProvider extends ServiceProvider
         \App\Http\Events\ActionStarting::class => [
             \App\Http\Listeners\LogActionStart::class
         ],
-        \App\Http\Events\ActionFinished::class => [
-            \App\Http\Listeners\LogActionFinish::class
-        ],
+        // \App\Http\Events\ActionFinished::class => [
+        //     \App\Http\Listeners\LogActionFinish::class
+        // ],
     ];
 
     /**
